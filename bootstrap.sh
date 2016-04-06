@@ -43,9 +43,15 @@ brew cask install firefox
 brew cask install google-chrome
 brew cask install vlc
 brew cask install spotify
+brew cask install gopro
 brew cask install gopro-studio
 brew cask install flashlight
+brew cask install skype
+brew cask install garmin-express
+
+# Security Tools
 brew cask install torbrowser
+brew cask install gpgtools
 
 # Developer tools
 brew cask install iterm2
@@ -54,6 +60,7 @@ brew cask install intellij-idea
 brew cask install visual-studio-code
 brew cask install github-desktop
 brew cask install sourcetree
+brew cask install gitter
 brew cask install virtualbox
 brew cask install diffmerge
 
@@ -74,7 +81,7 @@ apm install linter
 apm install linter-eslint
 apm install merge-conflicts
 apm install minimap
-apm install minimap-color-highlight
+#apm install minimap-color-highlight
 apm install minimap-git-diff
 apm install minimap-selection
 apm install open-recent
