@@ -30,6 +30,7 @@ which -s git || brew install git
 which -s sbt || brew install sbt
 which -s scala || brew install scala
 which -s node || brew install node
+which -s mysql || brew install mysql
 which -s wget || brew install wget
 which -s ack || brew install ack
 
@@ -54,9 +55,10 @@ brew cask install torbrowser
 brew cask install gpgtools
 
 # Developer tools
+brew cask install intellij-idea
 brew cask install iterm2
 brew cask install atom
-brew cask install intellij-idea
+brew cask install sequel-pro
 brew cask install visual-studio-code
 brew cask install github-desktop
 brew cask install sourcetree
