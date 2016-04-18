@@ -40,6 +40,7 @@ brew cask install scroll-reverser
 brew cask install avast
 brew cask install evernote
 brew cask install dropbox
+brew cask install nylas-n1
 brew cask install firefox
 brew cask install google-chrome
 brew cask install vlc
