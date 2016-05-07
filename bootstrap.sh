@@ -64,6 +64,7 @@ brew cask install visual-studio-code
 brew cask install github-desktop
 brew cask install sourcetree
 brew cask install gitter
+brew cask install slack
 brew cask install virtualbox
 brew cask install diffmerge
 
