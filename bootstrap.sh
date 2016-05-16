@@ -48,6 +48,7 @@ brew cask install spotify
 brew cask install gopro
 brew cask install gopro-studio
 brew cask install flashlight
+brew cask install whatsapp
 brew cask install skype
 brew cask install garmin-express
 
