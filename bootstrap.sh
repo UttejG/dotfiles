@@ -45,8 +45,7 @@ brew cask install firefox
 brew cask install google-chrome
 brew cask install vlc
 brew cask install spotify
-brew cask install gopro
-brew cask install gopro-studio
+brew cask install quik
 brew cask install flashlight
 brew cask install whatsapp
 brew cask install skype
@@ -86,7 +85,6 @@ apm install linter
 apm install linter-eslint
 apm install merge-conflicts
 apm install minimap
-#apm install minimap-color-highlight
 apm install minimap-git-diff
 apm install minimap-selection
 apm install open-recent
