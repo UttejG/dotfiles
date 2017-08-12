@@ -29,45 +29,49 @@ which -s java || brew cask install java
 which -s git || brew install git
 which -s sbt || brew install sbt
 which -s scala || brew install scala
+which -s ammonite-repl || brew install ammonite-repl
 which -s node || brew install node
 which -s mysql || brew install mysql
 which -s wget || brew install wget
 which -s ack || brew install ack
+which -s llvm || brew install llvm
 
 # Generic softwares
-brew cask install caffeine
-brew cask install scroll-reverser
 brew cask install avast
-brew cask install evernote
+brew cask install caffeine
 brew cask install dropbox
-brew cask install nylas-n1
+brew cask install evernote
 brew cask install firefox
-brew cask install google-chrome
-brew cask install vlc
-brew cask install spotify
-brew cask install quik
 brew cask install flashlight
-brew cask install whatsapp
-brew cask install skype
 brew cask install garmin-express
+brew cask install google-chrome
+brew cask install nylas-n1
+brew cask install quik
+brew cask install scroll-reverser
+brew cask install skype
+brew cask install spotify
+brew cask install vlc
+brew cask install whatsapp
+
 
 # Security Tools
-brew cask install torbrowser
 brew cask install gpgtools
+brew install keybase
+brew cask install torbrowser
 
 # Developer tools
-brew cask install intellij-idea
-brew cask install iterm2
 brew cask install atom
-brew cask install sequel-pro
-brew cask install visual-studio-code
-brew cask install github-desktop
-brew cask install sourcetree
-brew cask install gitter
-brew cask install slack
-brew cask install virtualbox
 brew cask install diffmerge
-
+brew cask install docker
+brew cask install gitter
+brew cask install github-desktop
+brew cask install iterm2
+brew cask install intellij-idea
+brew cask install sequel-pro
+brew cask install slack
+brew cask install sourcetree
+brew cask install visual-studio-code
+brew cask install virtualbox
 
 #Install atom plugin
 apm install autocomplete-paths
