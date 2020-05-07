@@ -49,6 +49,7 @@ brew cask install firefox
 brew cask install flashlight
 brew cask install garmin-express
 brew cask install google-chrome
+brew cask install kindle
 brew cask install microsoft-office
 brew cask install omnidisksweeper
 brew cask install quik
