@@ -6,7 +6,7 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-# Intall developer tools if not already installed
+# Install developer tools if not already installed
 xcode-select -p
 if [ $? -eq 0 ]; then
     echo "Found XCode."
@@ -49,13 +49,13 @@ git clone https://github.com/powerline/fonts.git
 ./fonts/install.sh
 rm -rf fonts
 
-# Install Cask
-echo "Checking brew cask..."
-brew install caskroom/cask/brew-cask &>/dev/null
+# Install
+echo "Checking brew..."
+brew installroom/cask/brew-cask &>/dev/null
 brew upgrade brew-cask &>/dev/null
 
-which -s java || brew cask install java
-which -s jenv || brew cask install jenv
+which -s java || brew install java
+which -s jenv || brew install jenv
 
 which -s sbt || brew install sbt
 which -s scala || brew install scala
@@ -70,31 +70,31 @@ which -s wget || brew install wget
 which -s ack || brew install ack
 which -s llvm || brew install llvm
 
-# Generic softwares
-brew cask install 1password
-brew cask install adobe-acrobat-reader
-brew cask install alfred
-brew cask install anki
-brew cask install avast-security
-brew cask install bettertouchtool
-brew cask install caffeine
-brew cask install coconutbattery
-brew cask install dropbox
-brew cask install evernote
-brew cask install firefox
-brew cask install flashlight
-brew cask install garmin-express
-brew cask install google-chrome
-brew cask install kindle
-brew cask install microsoft-office
-brew cask install omnidisksweeper
-brew cask install quik
-brew cask install scroll-reverser
-brew cask install skype
-brew cask install spotify
-brew cask install vlc
-brew cask install whatsapp
-brew cask install zoomus
+# Generic software
+brew install 1password
+brew install adobe-acrobat-reader
+brew install alfred
+brew install anki
+brew install avast-security
+brew install bettertouchtool
+brew install caffeine
+brew install coconutbattery
+brew install dropbox
+brew install evernote
+brew install firefox
+brew install flashlighttool
+brew install garmin-express
+brew install google-chrome
+brew install kindle
+brew install microsoft-office
+brew install omnidisksweeper
+brew install quik
+brew install scroll-reverser
+brew install skype
+brew install spotify
+brew install vlc
+brew install whatsapp
+brew install zoomus
 
 # Mac App Store Installs
 brew install mas
@@ -110,23 +110,22 @@ mas "Who's On My WiFi", id: 909760813               # Easily search devices on w
 
 
 # Security Tools
-brew cask install gpgtools
 brew install keybase
-brew cask install torbrowser
+brew install torbrowser
 
 # Developer tools
-brew cask install diffmerge
-brew cask install docker
-brew cask install gitter
-brew cask install github-desktop
-brew cask install iterm2
-brew cask install intellij-idea
-brew cask install postman
-brew cask install sequel-pro
-brew cask install slack
-brew cask install sourcetree
-brew cask install visual-studio-code
-brew cask install virtualbox
+brew install diffmerge
+brew install docker
+brew install gitter
+brew install github
+brew install iterm2
+brew install intellij-idea
+brew install postman
+brew install sequel-pro
+brew install slack
+brew install sourcetree
+brew install visual-studio-code
+brew install virtualbox
 
 # Cleanup
 brew cleanup
