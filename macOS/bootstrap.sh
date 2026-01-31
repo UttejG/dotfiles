@@ -8,17 +8,37 @@ fi
 
 # Check for required dependencies
 for cmd in curl git; do
-    if ! command -v $cmd &> /dev/null; then
+    if ! command -v "$cmd" &> /dev/null; then
         echo "$cmd is required but not installed" >&2
         exit 1
     fi
 done
+
+# Check internet connectivity
+echo "Checking internet connectivity..."
+if ! curl -s --max-time 5 https://www.google.com > /dev/null; then
+    echo "No internet connection detected" >&2
+    echo "This script requires internet access to download packages" >&2
+    exit 1
+fi
+
+# Check disk space (need ~10GB)
+echo "Checking disk space..."
+available=$(df -k / | awk 'NR==2 {print $4}')
+required=$((10 * 1024 * 1024))  # 10GB in KB
+if (( available < required )); then
+    available_gb=$((available / 1024 / 1024))
+    echo "Insufficient disk space. Required: 10GB, Available: ${available_gb}GB" >&2
+    exit 1
+fi
 
 # Ask for admin password upfront
 sudo -v || { echo "Failed to get sudo privileges" >&2; exit 1; }
 
 # Keep-alive: update existing `sudo` time stamp until script finishes
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+SUDO_PID=$!
+trap 'kill $SUDO_PID 2>/dev/null' EXIT INT TERM
 
 # Flags
 set -e          # Global exit on error flag
@@ -29,9 +49,20 @@ set -x          # Higher verbosity for easier debug
 if ! xcode-select -p &>/dev/null; then
     echo "Installing XCode Command Line Tools..."
     xcode-select --install || { echo "Failed to install XCode tools" >&2; exit 1; }
-    # Wait for XCode CLI tools to install
+    # Wait for XCode CLI tools to install (with timeout)
+    echo "Waiting for XCode CLI tools installation..."
+    timeout=1800  # 30 minutes
+    elapsed=0
     until xcode-select -p &>/dev/null; do
+        if (( elapsed >= timeout )); then
+            echo "XCode installation timed out after 30 minutes" >&2
+            exit 1
+        fi
         sleep 5
+        ((elapsed += 5))
+        if (( elapsed % 60 == 0 )); then
+            echo "Still waiting... ${elapsed}s elapsed"
+        fi
     done
 fi
 
@@ -48,7 +79,10 @@ if ! command -v brew &>/dev/null; then
         # M1/M2 Mac
         echo "Configuring for M-series chips..."
         NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "Failed to install Homebrew" >&2; exit 1; }
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+        # Add brew to path if not already present
+        if ! grep -q '/opt/homebrew/bin/brew shellenv' ~/.zprofile 2>/dev/null; then
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+        fi
         eval "$(/opt/homebrew/bin/brew shellenv)"
     else
         # Intel Mac
@@ -81,13 +115,24 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { echo "Failed to install Oh My Zsh" >&2; exit 1; }
 fi
 
-# Install Powerline fonts
-echo "Installing Powerline fonts..."
-git clone https://github.com/powerline/fonts.git --depth=1 || { echo "Failed to clone Powerline fonts" >&2; exit 1; }
-cd fonts
-./install.sh || { echo "Failed to install Powerline fonts" >&2; exit 1; }
-cd ..
-rm -rf fonts
+# Install Powerline fonts (idempotent)
+if fc-list | grep -qi powerline 2>/dev/null || [ -f "$HOME/Library/Fonts/PowerlineSymbols.otf" ]; then
+    echo "Powerline fonts already installed, skipping..."
+else
+    echo "Installing Powerline fonts..."
+    temp_dir=$(mktemp -d)
+    git clone https://github.com/powerline/fonts.git --depth=1 "$temp_dir" || {
+        echo "Failed to clone Powerline fonts" >&2
+        rm -rf "$temp_dir"
+        exit 1
+    }
+    (cd "$temp_dir" && ./install.sh) || {
+        echo "Failed to install Powerline fonts" >&2
+        rm -rf "$temp_dir"
+        exit 1
+    }
+    rm -rf "$temp_dir"
+fi
 
 # Install SDKMAN
 if [ ! -d "$HOME/.sdkman" ]; then
@@ -109,5 +154,10 @@ brew bundle || { echo "Failed to install packages from Brewfile" >&2; exit 1; }
 # Cleanup
 echo "Cleaning up Homebrew..."
 brew cleanup || { echo "Failed to cleanup Homebrew" >&2; exit 1; }
+
+# Re-enable Gatekeeper for security
+echo "Re-enabling Gatekeeper for security..."
+sudo spctl --master-enable || { echo "Failed to re-enable Gatekeeper" >&2; }
+echo "✓ Gatekeeper re-enabled. Use System Preferences > Security to allow specific apps as needed."
 
 echo "Installation completed successfully!"
